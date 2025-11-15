@@ -1,0 +1,33 @@
+#Core Frameworks
+
+langchain
+langgraph
+langsmith
+pydantic
+streamlit
+python-dotenv
+
+#LLM Provider
+
+langchain-groq
+langchain-huggingface
+#RAG Components
+
+langchain-qdrant
+qdrant-client
+pypdf # For reading PDF documents
+tiktoken # Tokenizer needed by many LLMs/Embeddings
+langchain-community 
+# Install the dedicated package for text splitting utilities
+langchain-text-splitters
+#External Tools
+# Install the core dependency for HuggingFace embeddings
+sentence-transformers
+
+requests
+geopy
+
+#Testing
+
+pytest
+pytest-mock
