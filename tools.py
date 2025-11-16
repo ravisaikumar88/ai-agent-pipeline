@@ -3,13 +3,8 @@ from geopy.geocoders import Nominatim
 from config import OPENWEATHER_API_KEY
 
 def get_lat_lon(city_name: str) -> tuple[float, float] | None:
-    """
-    Converts a city name into latitude and longitude coordinates.
-    Uses Nominatim for geocoding.
-    """
     geolocator = Nominatim(user_agent="ai_agent_weather_app")
     try:
-        # Use simple try-except structure for geocoding errors
         location = geolocator.geocode(city_name)
         if location:
             return location.latitude, location.longitude
@@ -19,15 +14,6 @@ def get_lat_lon(city_name: str) -> tuple[float, float] | None:
         return None
 
 def fetch_weather_data(city: str) -> str:
-    """
-    Fetches real-time weather data from OpenWeatherMap API.
-
-    Args:
-        city: The name of the city to get weather for (e.g., "London, UK").
-
-    Returns:
-        A formatted string summary of the current weather, or an error message.
-    """
     lat_lon = get_lat_lon(city)
     if not lat_lon:
         return f"Could not find geographic coordinates for the city: {city}. Please check the spelling."
@@ -39,18 +25,17 @@ def fetch_weather_data(city: str) -> str:
         'lat': lat,
         'lon': lon,
         'appid': OPENWEATHER_API_KEY,
-        'units': 'metric' # Use Celsius
+        'units': 'metric'
     }
 
     try:
         response = requests.get(BASE_URL, params=params, timeout=5)
-        response.raise_for_status()  # Raise an exception for HTTP errors (4xx or 5xx)
+        response.raise_for_status()
         data = response.json()
 
         if data.get("cod") != 200:
             return f"OpenWeatherMap API error: {data.get('message', 'Unknown error')}"
 
-        # Extract and format relevant information
         main_weather = data['weather'][0]['main']
         description = data['weather'][0]['description']
         temp = data['main']['temp']
@@ -73,7 +58,6 @@ def fetch_weather_data(city: str) -> str:
 
 
 if __name__ == "__main__":
-    # Test cases for the tool
     print("--- Testing Weather Tool ---")
     weather_in_london = fetch_weather_data("London, UK")
     print(f"\nQuery: London, UK\nResult:\n{weather_in_london}\n")
